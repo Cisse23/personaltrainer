@@ -32,7 +32,7 @@ export default function Traininglist(){
     */
     
     const getCustomerName = (params) => {
-        console.log(params.data.customer.firstname + ' ' + params.data.customer.lastname);
+        //console.log(params.data.customer.firstname + ' ' + params.data.customer.lastname);
         return params.data.customer.firstname + ' ' + params.data.customer.lastname;
     };
 
