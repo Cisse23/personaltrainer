@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
+import AddCustomer from "../AddCustomer";
 
 export default function Customerlist(){
     const [customers, setCustomers] = React.useState([]);
@@ -41,12 +42,28 @@ export default function Customerlist(){
         .catch(err => console.error)
     }, []);
 
-
+    const addCustomer = (customer) => {
+        fetch('https://customerrest.herokuapp.com/api/customers',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(customer)
+    })
+    .then(response => {
+      if(response.ok)
+        getCustomers();
+      else alert('Add customer / something went wrong')
+    })
+    .catch(err => console.error)
+    }
 
     return(
         <div className="ag-theme-material"
             style={{height: '900px', width: '90%', margin: 'auto'}} 
         >
+            <AddCustomer AddCustomer={addCustomer} />
             <AgGridReact
                 columnDefs={columns}
                 rowData={customers}

@@ -34,6 +34,16 @@ Listasivujen minimivaatimukset:
 •	Näytä myös asiakkaan nimi harjoitus -listasivulla
 •	Muotoile päivämäärä taulkossa esim. mutoon pp.kk.vvvv hh:mm
 
+
+Osa2
+Lisää seuraavat CRUD toiminnallisuudet asiakas ja harjoitus listasivuille:
+
+Uuden asiakkaiden lisäys
+Asiakkaan muokkaus ja poisto
+Uuden harjoituksen lisääminen asiakkaalle. Käytä harjoituksen päivämäärän syöttöön jotain siihen soveltuvaa komponenttia
+Harjoituksen poisto
+Lisää poistotoimintoihin myös vahvistus käyttäjältä.
+Palauta linkki lähdekoodiin ja kuvakaappaukset käyttöliittymästä.
 */
 
 
