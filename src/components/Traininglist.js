@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 export default function Traininglist(){
     
     const [trainings, setTrainings] = React.useState([]);
-    //const [customerName, setCustomerName] = React.useState('');
     //const link = 'https://customerrest.herokuapp.com/api/trainings';
     const link = 'https://customerrest.herokuapp.com/gettrainings';
 
@@ -18,31 +17,20 @@ export default function Traininglist(){
         );
         //return '£' + formatNumber(params.value);
     };
-
-    /*
-    const getCustomer = (params) => {
-        console.log(params.data.links[2].href);
-        console.log(params.data.customer.name);
-        if(params.data.customer.firstname)
-            return params.data.customer.firstname;
-        else return "Can't get customer name"
-        
-        return params.data.links[2].href;
-    };
-    */
     
     const getCustomerName = (params) => {
+        //console.log(params.data.content.customer.href);
         //console.log(params.data.customer.firstname + ' ' + params.data.customer.lastname);
         return params.data.customer.firstname + ' ' + params.data.customer.lastname;
     };
 
     const columns = [
-        {field: "id"},
-        {field: "date", headerName: "ISO date"}, 
+        {field: "id", width:100},
+        {field: "date", headerName: "ISO date", width:300}, 
         {field: "date", headerName: "Date formatted", valueFormatter: dateFormatter}, 
         //Muotoile päivämäärä taulkossa esim. mutoon pp.kk.vvvv hh:mm
         //dayjs().format("YYYY-MM-DD"); // 2021-05-26
-        {field: "duration"},
+        {field: "duration", width:120},
         {field: "activity"},
         {field: "customer", valueGetter: getCustomerName} //Näytä myös asiakkaan nimi harjoitus -listasivulla
     ]
@@ -91,6 +79,22 @@ export default function Traininglist(){
     );
 }
 
+/*
+Add training and link it to customer
+You can add new training by calling /trainings endpoint using the POST method and giving a new training with customer reference link inside the request body as a JSON string.
+Header: 'Content-Type': 'application/json'
+Body:
+{
+date: "2018-1-1",
+activity: "Spinning",
+duration: "50",
+customer: "https://localhost:8080/api/customers/2"
+}
+NOTE! To save also time of the training (for example 27.11.19 09:00) the format must be ISO-8601 (You can use for example moment’s toISOString() function)
+2019-11-27T09:00:00.000+0000
+*/
+
+
 /**
  Esimerkkiolio
 {
@@ -106,24 +110,24 @@ export default function Traininglist(){
 ],
 "content": [
 {
-"date": "2022-11-30T11:21:02.984+00:00",
-"duration": 60,
-"activity": "Spinning",
-"content": [],
-"links": [
-{
-"rel": "self",
-"href": "https://customerrest.herokuapp.com/api/trainings/2357"
-},
-{
-"rel": "training",
-"href": "https://customerrest.herokuapp.com/api/trainings/2357"
-},
-{
-"rel": "customer",
-"href": "https://customerrest.herokuapp.com/api/trainings/2357/customer"
-}
-]
+    "date": "2022-11-30T11:21:02.984+00:00",
+    "duration": 60,
+    "activity": "Spinning",
+    "content": [],
+    "links": [
+    {
+    "rel": "self",
+    "href": "https://customerrest.herokuapp.com/api/trainings/2357"
+    },
+    {
+    "rel": "training",
+    "href": "https://customerrest.herokuapp.com/api/trainings/2357"
+    },
+    {
+    "rel": "customer",
+    "href": "https://customerrest.herokuapp.com/api/trainings/2357/customer"
+    }
+    ]
 },
  */
 

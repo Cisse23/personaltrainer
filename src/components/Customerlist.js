@@ -17,7 +17,6 @@ export default function Customerlist(){
         {field: "phone", sortable: true, filter: true}
     ]
 
-
     const getCustomers = (() => {
         fetch(link_customers)
         .then(response => {
