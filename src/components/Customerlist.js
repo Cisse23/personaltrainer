@@ -6,7 +6,7 @@ import AddCustomer from "../AddCustomer";
 
 export default function Customerlist(){
     const [customers, setCustomers] = React.useState([]);
-    const link = 'https://customerrest.herokuapp.com/api/customers'
+    const link_customers = 'https://customerrest.herokuapp.com/api/customers'
     const columns = [
         {field: "firstname", sortable: true, filter: true}, 
         {field: "lastname", sortable: true, filter: true},
@@ -19,7 +19,7 @@ export default function Customerlist(){
 
 
     const getCustomers = (() => {
-        fetch('https://customerrest.herokuapp.com/api/customers')
+        fetch(link_customers)
         .then(response => {
             if(response.ok)
                 return response.json();
@@ -30,8 +30,10 @@ export default function Customerlist(){
         .catch(err => console.error)
     }, [] );
 
+    //useEffect({getCustomers}, []);
+    
     useEffect(() => {
-        fetch(link)
+        fetch(link_customers)
         .then(response => {
             if(response.ok)
                 return response.json();
@@ -43,7 +45,7 @@ export default function Customerlist(){
     }, []);
 
     const addCustomer = (customer) => {
-        fetch('https://customerrest.herokuapp.com/api/customers',
+        fetch(link_customers,
     {
       method: 'POST',
       headers: {
@@ -63,7 +65,7 @@ export default function Customerlist(){
         <div className="ag-theme-material"
             style={{height: '900px', width: '90%', margin: 'auto'}} 
         >
-            <AddCustomer AddCustomer={addCustomer} />
+            <AddCustomer addCustomer={addCustomer} />
             <AgGridReact
                 columnDefs={columns}
                 rowData={customers}
