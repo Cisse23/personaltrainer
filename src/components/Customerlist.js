@@ -2,12 +2,17 @@ import React, { useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
-import AddCustomer from "../AddCustomer";
+import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer";
 
 export default function Customerlist(){
     const [customers, setCustomers] = React.useState([]);
-    const link_customers = 'https://customerrest.herokuapp.com/api/customers'
+    const link_customers = 'https://customerrest.herokuapp.com/api/customers/'
     const columns = [
+        {field: "edit", with:100,
+            cellRenderer: params => 
+            <EditCustomer  data={params.data} editCustomer={editCustomer} /> 
+        },
         {field: "firstname", sortable: true, filter: true}, 
         {field: "lastname", sortable: true, filter: true},
         {field: "streetaddress", sortable: true, filter: true},
@@ -60,11 +65,28 @@ export default function Customerlist(){
     .catch(err => console.error)
     }
 
+    const editCustomer = (customer, data) => {
+        console.log("Editing: " + customer.firstname);
+        fetch(data,
+            {
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(customer)
+            })
+            .then(response => {
+                if(response.ok)
+                    getCustomers();
+                else
+                    alert('Error when editing customer');
+            })
+            .catch(err => console.error)
+    }
+
     return(
         <div className="ag-theme-material"
             style={{height: '900px', width: '90%', margin: 'auto'}} 
         >
-            <AddCustomer addCustomer={addCustomer} />
+            <AddCustomer addCustomer={addCustomer} getCustomers={getCustomers} />
             <AgGridReact
                 columnDefs={columns}
                 rowData={customers}

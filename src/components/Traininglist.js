@@ -26,7 +26,7 @@ export default function Traininglist(){
 
     const columns = [
         {field: "id", width:100},
-        {field: "date", headerName: "ISO date", width:300}, 
+        //{field: "date", headerName: "ISO date", width:300}, 
         {field: "date", headerName: "Date formatted", valueFormatter: dateFormatter}, 
         //Muotoile päivämäärä taulkossa esim. mutoon pp.kk.vvvv hh:mm
         //dayjs().format("YYYY-MM-DD"); // 2021-05-26
@@ -37,8 +37,9 @@ export default function Traininglist(){
 
     const defaultColDef = useMemo( () => ({
         sortable: true,
-        filter: true
+        filter: true,
     }), [] );
+
 
     const getTrainings = (() => {
         fetch(link)

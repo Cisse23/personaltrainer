@@ -27,11 +27,12 @@ export default function AddCustomer(props){
     };
 
     const handleSave = () => {
-        //vois lisätä validoinnin että vuosi ja hinta on numeroita
+        //vois lisätä validoinnin että postinumero on numero
         //esim react hook form kirjasto
         console.log(customer);
         props.addCustomer(customer);
         setOpen(false);
+        //props.getCustomers();     //ei toimi, sanoo props.getCustomer() is not a function...   
     }
  
     return (
