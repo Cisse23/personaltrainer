@@ -62,19 +62,19 @@ export default function Customerlist(){
 
     const addCustomer = (customer) => {
         fetch(link_customers,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(customer)
-    })
-    .then(response => {
-      if(response.ok)
-        getCustomers();
-      else alert('Add customer / something went wrong')
-    })
-    .catch(err => console.error)
+        {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(customer)
+        })
+        .then(response => {
+        if(response.ok)
+            getCustomers();
+        else alert('Add customer / something went wrong')
+        })
+        .catch(err => console.error)
     }
 
     const editCustomer = (customer, data) => {
@@ -117,6 +117,7 @@ export default function Customerlist(){
             />
         </div>
     );
+
 }
 
 /*Esimerkkiolio

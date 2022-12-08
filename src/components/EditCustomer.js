@@ -43,7 +43,7 @@ export default function EditCustomer(props){
         //props.getCustomers();     //ei toimi, sanoo props.getCustomer() is not a function...   
     }
     return(
-    <div>
+    <>
          <Button size="small" onClick={handleClickOpen}>
             Edit
         </Button>
@@ -112,7 +112,7 @@ export default function EditCustomer(props){
           <Button onClick={handleSave}>Save</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
        
     );
 }

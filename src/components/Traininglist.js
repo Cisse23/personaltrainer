@@ -3,12 +3,15 @@ import { AgGridReact } from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import dayjs from "dayjs";
+import DatePicker from '@mui/x-date-pickers/DatePicker';
+import AddTraining from "./AddTraining";
+import { Button } from "@mui/material";
 
 export default function Traininglist(){
     
     const [trainings, setTrainings] = React.useState([]);
-    //const link = 'https://customerrest.herokuapp.com/api/trainings';
-    const link = 'https://customerrest.herokuapp.com/gettrainings';
+    const link_add = 'https://customerrest.herokuapp.com/api/trainings';
+    const link_get = 'https://customerrest.herokuapp.com/gettrainings';
 
     //https://ag-grid.com/react-data-grid/value-formatters/
     const dateFormatter = (params) => {
@@ -25,9 +28,19 @@ export default function Traininglist(){
     };
 
     const columns = [
+        {field: "delete", width: 120,
+        cellRenderer: params =>
+        <Button
+        size="small"
+        color="error"
+        onClick={() => deleteTraining(params.data)}
+        >
+            DELETE
+        </Button>
+        },
         {field: "id", width:100},
         //{field: "date", headerName: "ISO date", width:300}, 
-        {field: "date", headerName: "Date formatted", valueFormatter: dateFormatter}, 
+        {field: "date", headerName: "Date", valueFormatter: dateFormatter}, 
         //Muotoile päivämäärä taulkossa esim. mutoon pp.kk.vvvv hh:mm
         //dayjs().format("YYYY-MM-DD"); // 2021-05-26
         {field: "duration", width:120},
@@ -42,7 +55,7 @@ export default function Traininglist(){
 
 
     const getTrainings = (() => {
-        fetch(link)
+        fetch(link_get)
         .then(response => {
             if(response.ok)
                 return response.json();
@@ -54,7 +67,7 @@ export default function Traininglist(){
     }, [] );
 
     useEffect(() => {
-        fetch(link)
+        fetch(link_get)
         .then(response => {
             if(response.ok)
                 return response.json();
@@ -65,12 +78,42 @@ export default function Traininglist(){
         .catch(err => console.error)
     }, [] );
 
+    //NOTE! To save time of the training (for example 27.11.19 09:00) the format must be ISO-8601 (You can
+    //use for example moment’s toISOString() function)
+    const addTraining = (training) => {
+        fetch(link_add,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(training)
+        })
+        .then(response => {
+            if(response.ok)
+                getTrainings();
+            else alert("Something went wrong when getting trainings...")
+        })
+        .catch(err => console.err)
+    }
 
+    const deleteTraining = (data) => {
+        console("Deleting " + data.activity + " from: " + data.links[1].href)
+        if(window.confirm("Are you sure you wanna delete?"))
+        fetch(('https://customerrest.herokuapp.com/api/trainings/' + data.id), {method: 'DELETE'})
+        .then(response => {
+            if(response.ok)
+                getTrainings();
+            else alert("Error when deleting training")
+        })
+        .catch(err => console.error)
+    }
 
     return(
         <div className="ag-theme-material"
             style={{height: '900px', width: '90%', margin: 'auto'}} 
         >
+            <AddTraining addTraining={addTraining} />
             <AgGridReact
                 columnDefs={columns}
                 defaultColDef={defaultColDef}
@@ -93,6 +136,7 @@ customer: "https://localhost:8080/api/customers/2"
 }
 NOTE! To save also time of the training (for example 27.11.19 09:00) the format must be ISO-8601 (You can use for example moment’s toISOString() function)
 2019-11-27T09:00:00.000+0000
+//https://day.js.org/docs/en/display/as-iso-string
 */
 
 
