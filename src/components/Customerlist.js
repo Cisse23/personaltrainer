@@ -4,22 +4,34 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import { Button } from "@mui/material";
+
 
 export default function Customerlist(){
     const [customers, setCustomers] = React.useState([]);
     const link_customers = 'https://customerrest.herokuapp.com/api/customers/'
     const columns = [
-        {field: "edit", with:100,
+        {field: "edit", width: 120,
             cellRenderer: params => 
-            <EditCustomer  data={params.data} editCustomer={editCustomer} /> 
+            <EditCustomer  data={params.data} editCustomer={editCustomer} /> ,
+
         },
-        {field: "firstname", sortable: true, filter: true}, 
-        {field: "lastname", sortable: true, filter: true},
+        {field: "delete", width: 120,
+            cellRenderer: params =>
+            <Button
+            size="small"
+            color="error"
+            onClick={() => deleteCustomer(params.data)}>
+                DELETE
+            </Button>
+        },
+        {field: "firstname", width: 150, sortable: true, filter: true}, 
+        {field: "lastname", width: 150, sortable: true, filter: true},
         {field: "streetaddress", sortable: true, filter: true},
-        {field: "postcode", sortable: true, filter: true},
-        {field: "city", sortable: true, filter: true},
-        {field: "email", sortable: true, filter: true},
-        {field: "phone", sortable: true, filter: true}
+        {field: "postcode", width: 130, sortable: true, filter: true},
+        {field: "city", width: 150, sortable: true, filter: true},
+        {field: "email", width: 180, sortable: true, filter: true},
+        {field: "phone", width: 150, sortable: true, filter: true}
     ]
 
     const getCustomers = (() => {
@@ -80,6 +92,18 @@ export default function Customerlist(){
                     alert('Error when editing customer');
             })
             .catch(err => console.error)
+    }
+
+    const deleteCustomer = (data) => {
+        console.log("Deleting " + data.firstname + " from: " + data.links[1].href)
+        if (window.confirm("Are you sure you wanna delete?"))
+        fetch(data.links[1].href,  {method: 'DELETE'})
+        .then( response => {
+            if(response.ok)
+                getCustomers();
+            else alert("Error when deleting customer")
+        })
+        .catch(err => console.error)
     }
 
     return(

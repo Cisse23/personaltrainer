@@ -36,7 +36,7 @@ export default function AddCustomer(props){
     }
  
     return (
-        <div>
+        <>
           <br></br>
           <Button variant="outlined" onClick={handleClickOpen}>
             Add Customer
@@ -106,7 +106,7 @@ export default function AddCustomer(props){
               <Button onClick={handleSave}>Save</Button>
             </DialogActions>
           </Dialog>
-        </div>
+        </>
       );
 
 }
