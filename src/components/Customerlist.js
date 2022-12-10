@@ -4,6 +4,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import ExportCSV from "./ExportCSV";
 import { Button } from "@mui/material";
 
 
@@ -11,6 +12,10 @@ export default function Customerlist(){
     const [customers, setCustomers] = React.useState([]);
     const link_customers = 'https://customerrest.herokuapp.com/api/customers/'
     const columns = [
+        {field: "export trainings",
+            cellRenderer: params => 
+            <ExportCSV data={params.data} />
+        },
         {field: "edit", width: 120,
             cellRenderer: params => 
             <EditCustomer  data={params.data} editCustomer={editCustomer} /> ,
