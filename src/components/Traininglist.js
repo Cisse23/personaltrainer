@@ -24,7 +24,8 @@ export default function Traininglist(){
     const getCustomerName = (params) => {
         //console.log(params.data.content.customer.href);
         //console.log(params.data.customer.firstname + ' ' + params.data.customer.lastname);
-        return params.data.customer.firstname + ' ' + params.data.customer.lastname;
+        if(params.data.customer)
+            return params.data.customer.firstname + ' ' + params.data.customer.lastname;
     };
 
     const columns = [
@@ -33,8 +34,7 @@ export default function Traininglist(){
         <Button
         size="small"
         color="error"
-        onClick={() => deleteTraining(params.data)}
-        >
+        onClick={() => deleteTraining(params.data)}>
             DELETE
         </Button>
         },
@@ -97,10 +97,12 @@ export default function Traininglist(){
         .catch(err => console.err)
     }
 
+    //'https://customerrest.herokuapp.com/api/trainings/
     const deleteTraining = (data) => {
-        console("Deleting " + data.activity + " from: " + data.links[1].href)
-        if(window.confirm("Are you sure you wanna delete?"))
-        fetch(('https://customerrest.herokuapp.com/api/trainings/' + data.id), {method: 'DELETE'})
+        console.log(data);
+        console.log("Deleting " + data.activity + " from: " + data.id)
+        if(window.confirm("Are you sure you wanna delete? "))
+        fetch('https://customerrest.herokuapp.com/api/trainings/' + data.id, {method: 'DELETE'})
         .then(response => {
             if(response.ok)
                 getTrainings();
