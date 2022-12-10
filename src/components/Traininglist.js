@@ -3,7 +3,6 @@ import { AgGridReact } from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import dayjs from "dayjs";
-import DatePicker from '@mui/x-date-pickers/DatePicker';
 import AddTraining from "./AddTraining";
 import { Button } from "@mui/material";
 
@@ -22,7 +21,6 @@ export default function Traininglist(){
     };
     
     const getCustomerName = (params) => {
-        //console.log(params.data.content.customer.href);
         //console.log(params.data.customer.firstname + ' ' + params.data.customer.lastname);
         if(params.data.customer)
             return params.data.customer.firstname + ' ' + params.data.customer.lastname;

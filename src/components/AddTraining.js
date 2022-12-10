@@ -33,7 +33,12 @@ export default function AddTraining(props){
     //lisää validointi että duration on numero
     //esim react hook form kirjasto
     console.log(training);
+    if(training.customer == null)
+      setTraining({...training, customer: 'tietoturva-asiakas'});
+    else if(training.customer.length === 4)
+      setTraining({...training, customer: 'https://customerrest.herokuapp.com/api/customers/' + training.customer});
     props.addTraining(training);
+    console.log("Added training for " + training.customer)
     setOpen(false);
   }
 
@@ -57,8 +62,8 @@ export default function AddTraining(props){
   }
 
   const selectCustomer = (event) => {
-    setTraining({...training, customer: event.customer.links[1].href});
     console.log("Customer was set to: " + event.customer.links[1].href);
+    setTraining({...training, customer: event.customer.links[1].href});
   }
 
   return(
@@ -81,23 +86,6 @@ export default function AddTraining(props){
             />
           </LocalizationProvider>
 
-          <TextField
-            margin="dense"
-            label="Duration"
-            value={training.duration}
-            onChange={e => setTraining({...training, duration: e.target.value})}
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            label="Activity"
-            value={training.activity}
-            onChange={(e) => setTraining({...training, activity: e.target.value})}
-            fullWidth
-            variant="standard"
-          />
-
           <InputLabel id="CustomerSelectLabel">Customer</InputLabel>
           <Select 
           labelId="CustomerSelectLabel"
@@ -106,13 +94,43 @@ export default function AddTraining(props){
           label="Customer"
           fullWidth
           variant="standard"
-          onChange={selectCustomer}
+          setSelectValue="true"
+          onChange={(newValue) => {
+            selectCustomer(newValue);
+          }}
           >
           {customers.map((customer, index) =>(
             <MenuItem key={index} value={customer.id}>
             {customer.firstname + " " + customer.lastname}</MenuItem>
           ))}
           </Select>
+
+          <TextField
+            margin="dense"
+            label="CustomerById"
+            value={training.customer}
+            onChange={e => setTraining({...training, customer: e.target.value})}
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            margin="dense"
+            label="Duration"
+            value={training.duration}
+            onChange={e => setTraining({...training, duration: e.target.value})}
+            fullWidth
+            variant="standard"
+          />
+          
+          <TextField
+            margin="dense"
+            label="Activity"
+            value={training.activity}
+            onChange={(e) => setTraining({...training, activity: e.target.value})}
+            fullWidth
+            variant="standard"
+          />
 
         </DialogContent>
         <DialogActions>
