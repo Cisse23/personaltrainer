@@ -18,12 +18,34 @@ export default function ExportCSV(props){
         .catch(err => console.error)
     }, [] );
     //console.log(dayjs(trainings[0].date).format('DD.MM.YYYY HH.mm'), trainings[0].duration, trainings[0].activity);
-    const csvData = [
-        ["Firstname", "Lastname", "Streetaddress", "Postcode", "City", "Email", "Phone" ],
-        [props.data.firstname, props.data.lastname, props.data.streetaddress, props.data.postcode, props.data.city, props.data.email, props.data.phone ],
-        //[dayjs(trainings[0].date).format('DD.MM.YYYY HH.mm'), trainings[0].duration, trainings[0].activity],
+    //if(trainings){
+       // console.log(trainings.content[0].toString());}
+    const rows = "";
 
-      ];
+    for (let i = 0; i< trainings.length; i++) {
+      rows += "[" + trainings[i].date + "," + trainings[i].duration + "," + trainings[i].activity + "],";
+       
+    }
+
+       const csvData = [
+         /*headers = [
+            { label: "Date", key: "date" },
+            { label: "Activity", key: "activity" },
+            { label: "Duration", key: "duration" }
+            
+         ],*/
+      
+            //data = {rows}
+            ["Firstname", "Lastname", "Streetaddress", "Postcode", "City", "Email", "Phone" ],
+            [props.data.firstname, props.data.lastname, props.data.streetaddress, props.data.postcode, props.data.city, props.data.email, props.data.phone ],
+            [rows]
+            //trainings.map((training) =>  "[" + training.activity + "," + training.duration + "],")
+            //[trainings[0].activity, trainings[0].duration]
+
+
+            //[dayjs(trainings[0].date).format('DD.MM.YYYY HH.mm'), trainings[0].duration, trainings[0].activity],
+
+        ];
 
       //date, duration, activity
 
@@ -32,6 +54,7 @@ export default function ExportCSV(props){
         <CSVLink 
         style={{color: "green"}} 
         data={csvData} 
+       //data={trainings}
         separator={";"}
         filename={"my-trainings.csv"} >Download</CSVLink>
     );
