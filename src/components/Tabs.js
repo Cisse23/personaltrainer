@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Customerlist from './Customerlist';
 import Traininglist from './Traininglist';
+import TrainingSchedule from './TrainingSchedule';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,7 +55,7 @@ export default function BasicTabs() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Customers" {...a11yProps(0)} />
           <Tab label="Trainings" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Schedule" {...a11yProps(2)} />
         </Tabs>
       </Box>
         <TabPanel value={value} index={0}>
@@ -64,7 +65,7 @@ export default function BasicTabs() {
           <Traininglist />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Schedule
+          <TrainingSchedule />
         </TabPanel>
       </Box>
     </>
